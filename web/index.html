@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Unsloth Demo</title>
+</head>
+<body>
+  <h2>Unsloth Demo</h2>
+  <textarea id="prompt" rows="6" cols="80">Explain recursion simply.</textarea><br/>
+  <button id="go">Generate</button>
+  <pre id="out" style="background:#f7f7f7;padding:10px;"></pre>
+
+  <script>
+  document.getElementById('go').onclick = async () => {
+    const prompt = document.getElementById('prompt').value;
+    const resp = await fetch('/generate', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ prompt, max_new_tokens: 150 })
+    });
+    const data = await resp.json();
+    document.getElementById('out').innerText = data.generated_text || JSON.stringify(data, null, 2);
+  }
+  </script>
+</body>
+</html>
